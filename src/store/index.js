@@ -107,7 +107,21 @@ const actions = {
     // ShopCart 删除单个商品
     async reqDeleteSku(context,skuId) {
         return await deleteSku(skuId)
+    },
+    deleteCheckedSku(context) {
+        let promise;
+        if(context.state.cartList.length>0) {
+            context.state.cartList[0].cartInfoList.forEach(item => {
+                if(item.isChecked==1) {
+                    promise = context.dispatch("reqDeleteSku",item.skuId)
+                }
+            });
+        }else {
+            alert("购物车里没有商品了")
+        }
+        return promise
     }
+    
 }
 // getters可以理解为计算属性,用于简化仓库数据,让组件获取仓库的数据更加方便
 const getters = {

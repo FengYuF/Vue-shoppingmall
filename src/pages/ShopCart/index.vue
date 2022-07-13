@@ -55,7 +55,7 @@
         <span>全选</span>
       </div>
       <div class="option">
-        <a href="#none">删除选中的商品</a>
+        <a @click="deleteCheckedSku">删除选中的商品</a>
         <a href="#none">移到我的关注</a>
         <a href="#none">清除下柜商品</a>
       </div>
@@ -131,7 +131,19 @@
             this.getData()
           }
         })
-      }
+      },
+      // 将勾选的商品移出购物车
+      deleteCheckedSku() {
+        this.$store.dispatch("deleteCheckedSku").then(res=>{
+          if(res==undefined) {
+            return;
+          }else {
+            if(res.code==200) {
+              this.getData()
+            }
+          }
+        })
+      },
     },
     computed: {
       chooseAll() {

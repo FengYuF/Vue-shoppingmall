@@ -32,7 +32,7 @@
             </ul>
         </div>
         <!-- 图片 -->
-        <div class="img">
+        <div class="img-icon">
             <router-link to="/home"><img src="../../assets/images/sph.png" alt=""></router-link>
         </div>
         <!-- 搜索框 -->
@@ -132,11 +132,12 @@ export default {
     color: black;
 }
 /* img */
-.img {
+.img-icon {
     display: inline-block;
     width: 300px;
-    margin-top: 74px;
-    margin-left: 50px;
+    position: relative;
+    top: 74px;
+    left: 50px;
 }
 /* 搜索框 */
 .search {
