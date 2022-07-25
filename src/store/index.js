@@ -3,6 +3,8 @@ import Vuex, { Store } from 'vuex'
 
 import { getCategoryList, getBannerList, getFloorList, getSearchInfo, getDetailInfo, addShopCart, getCartList, changeChecked, deleteSku } from '@/network/index'
 import {getUUID} from '@/utils/uuid_token'
+
+import user from './user'
 // 注册Vuex插件
 Vue.use(Vuex)
 // state: 仓库存储数据的地方
@@ -108,6 +110,7 @@ const actions = {
     async reqDeleteSku(context,skuId) {
         return await deleteSku(skuId)
     },
+    // 删除选中的商品
     deleteCheckedSku(context) {
         let promise;
         if(context.state.cartList.length>0) {
@@ -140,11 +143,15 @@ const getters = {
     }
     
 }
+const modules = {
+    user
+}
 // 对外暴露Store类的一个实例
 export default new Vuex.Store({
     // 配置对象
     state,
     mutations,
     actions,
-    getters
+    getters,
+    modules
 })

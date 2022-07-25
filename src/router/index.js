@@ -8,7 +8,7 @@ Vue.use(VueRouter)
 const Home = () => import('../pages/Home/index.vue')
 const Search = () => import('../pages/Search/index.vue')
 const Login = () => import('../pages/Login/index.vue')
-const Register = () => import('../pages/Register/index.vue')
+const Register = () => import('@/pages/Register/index.vue')
 const Detail = () => import('@/pages/Detail/index.vue')
 // 备份push/replace
 let originPush = VueRouter.prototype.push;
@@ -37,7 +37,7 @@ VueRouter.prototype.replace = function(loaction,resolve,reject) {
 }
 
 //配置路由
-export default new VueRouter({
+const router = new VueRouter({
     routes:[
         // 重定向
         {
@@ -103,3 +103,31 @@ export default new VueRouter({
         }
       }
 })
+// 配置全局路由守卫 用于判断是否为登陆状态
+router.beforeEach((to, from,next) => {
+    let token = localStorage.getItem("TOKEN")
+    // 如果持有token,并且登录了,不能再次跳转到login页面
+    if(token) {
+        if(to.path=="/login") {
+            next(from.path)
+        }else{
+            next()
+        }
+    // 如果没有token,并且没有登录,只能进入home/register/login页面,其他的一律重定向为login页面
+    }else if(token==null){
+        if(to.path=="/home") {
+            next()
+        }else if(to.path=="/register"){
+            next()
+        }else if(to.path=="/login") {
+            next()
+        }else if(to.path=="/search") {
+            next()
+        }else {
+            next("/login")
+        }
+    }
+    next()
+  })
+
+export default router

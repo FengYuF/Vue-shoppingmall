@@ -7,8 +7,10 @@
           <ul>
             <li>尚品汇欢迎您!</li>
             <!-- 声明式导航 -->
-            <li><router-link to="/login">请登录</router-link></li>
-            <li><router-link to="/register">免费注册</router-link></li>
+            <li v-if="!userInfo.nickName"><router-link to="/login">请登录</router-link></li>
+            <li v-if="userInfo.nickName"><a href="javascript:;">{{userInfo.nickName}}</a></li>
+            <li v-if="!userInfo.nickName"><router-link to="/register">免费注册</router-link></li>
+            <li v-else><a href="javascript:;" @click="logout">退出登录</a></li>
           </ul>
         </div>
         <!-- Header右半部分 -->
@@ -46,11 +48,12 @@
 </template>
 
 <script>
+import { settings } from 'nprogress'
 export default {
   name: "Header",
   data() {
     return {
-      keyword:''
+      keyword:'',
     }
   },
   methods: {
@@ -70,10 +73,40 @@ export default {
       }else {
         this.$router.push(loaction)
       }
-      }
       // this.$router.push('/Search')
+    },
+    // 退出登录
+    // 1. 发请求,通知服务器退出登录: 清除一些数据-> token
+    // 2. 清除当前项目中的数据: userInfo,token
+    logout() {
+      this.$store.dispatch("reqUserLogout").then(res=>{
+        if(res.code==200) {
+          this.$store.dispatch("reqGetUserInfo")
+          this.$router.push("/home")
+        }
+      })
+    }
+  },
+  computed:{
+      userInfo() {
+        return this.$store.getters.userInfo
+      
+      },
+  },
+
+  // 监听路由路径变化,如果是从'login','/' 跳转到home时,获取用户信息进行展示
+   watch: {
+    $route(to, from) {
+        this.$store.dispatch("reqGetUserInfo").then(res=>{
+          console.log(111);
+        }).catch(err=>{
+          console.log(err);
+          this.$store.dispatch("reqUserLogout")
+          this.$router.push("/login")
+        })
+    }
   }
-    
+  
 }
 </script>
 
@@ -97,13 +130,13 @@ export default {
 }
 .Header-top-left ul {
   display: flex;
-  width: 200px;
+  width: 250px;
   list-style: none;
   font-size: 13px;
 }
 .Header-top-left ul li {
     flex-direction: row;
-  margin-left: 5px;
+    margin-left: 5px;
 }
 .Header-top-left ul li a {
   text-decoration: none;

@@ -20,8 +20,7 @@ export function request(config) {
     // 请求拦截器
     service.interceptors.request.use((config)=>{
         nprogress.start()
-        console.log(localStorage.getItem("UUID_TOKEN"));
-        config.headers.userTempId = localStorage.getItem("UUID_TOKEN")
+        config.headers.token = localStorage.getItem("TOKEN")
         return config
     })
     // 响应拦截器
