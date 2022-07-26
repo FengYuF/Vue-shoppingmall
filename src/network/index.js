@@ -102,3 +102,9 @@ export const userLogout = ()=>{
         method: 'get'
     })
 }
+export const tradeInfo = ()=> {
+    return request({
+        url: '/order/auth/trade',
+        method: 'get'
+    })
+}

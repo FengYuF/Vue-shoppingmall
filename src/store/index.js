@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex, { Store } from 'vuex'
 
-import { getCategoryList, getBannerList, getFloorList, getSearchInfo, getDetailInfo, addShopCart, getCartList, changeChecked, deleteSku } from '@/network/index'
+import { getCategoryList, getBannerList, getFloorList, getSearchInfo, getDetailInfo, addShopCart, getCartList, changeChecked, deleteSku, tradeInfo } from '@/network/index'
 import {getUUID} from '@/utils/uuid_token'
 
 import user from './user'
@@ -17,7 +17,8 @@ const state = {
     searchInfo: {},
     detailInfo: {},
     uuid_token: getUUID(),
-    cartList: []
+    cartList: [],
+    tradeInfo: {}
 }
 // mutations: 修改state的唯一手段
 const mutations = {
@@ -41,6 +42,9 @@ const mutations = {
     },
     GETCARTLIST(state,cartList){
         state.cartList = cartList
+    },
+    TRADEINFO(state,tradeInfo) {
+        state.tradeInfo = tradeInfo
     }
 }
 // 处理actions,可以书写自己的业务,也可以处理异步
@@ -123,6 +127,13 @@ const actions = {
             alert("购物车里没有商品了")
         }
         return promise
+    },
+    // 获取订单交易页信息
+    async reqTradeInfo(context) {
+        let result = await tradeInfo()
+        if(result.code==200) {
+            context.commit("TRADEINFO",result.data)
+        }
     }
     
 }

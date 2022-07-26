@@ -45,6 +45,14 @@ const router = new VueRouter({
             redirect: '/home',
         },
         {
+            path: '/Trade',
+            name: 'trade',
+            component: ()=> import('@/pages/Trade/index'),
+            meta:{
+                show: true
+            }
+        },
+        {
             path: '/ShopCart',
             name: 'shopCart',
             component: ()=> import('@/pages/ShopCart/index'),
