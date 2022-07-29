@@ -45,7 +45,47 @@ const router = new VueRouter({
             redirect: '/home',
         },
         {
-            path: '/Trade',
+            path: '/center',
+            name: 'center',
+            component: ()=> import('@/pages/Center/index'),
+            children:[
+                {
+                    path: '/',
+                    redirect: '/center/myorder'
+                },
+                {
+                    path: 'myorder',
+                    name: 'myorder',
+                    component: ()=> import('@/pages/Center/children/MyOrder/index')
+                },
+                {
+                    path: 'grouporder',
+                    name: 'grouporder',
+                    component: ()=> import('@/pages/Center/children/GroupOrder/index')
+                }
+            ],
+            meta:{
+                show: true
+            }
+        },
+        {
+            path: '/paysuccess',
+            name: 'paysuccess',
+            component: ()=> import('@/pages/PaySuccess/index'),
+            meta:{
+                show: true
+            }
+        },
+        {
+            path: '/pay',
+            name: 'pay',
+            component: ()=> import('@/pages/Pay/index'),
+            meta:{
+                show: true
+            }
+        },
+        {
+            path: '/trade',
             name: 'trade',
             component: ()=> import('@/pages/Trade/index'),
             meta:{
@@ -53,7 +93,7 @@ const router = new VueRouter({
             }
         },
         {
-            path: '/ShopCart',
+            path: '/shopCart',
             name: 'shopCart',
             component: ()=> import('@/pages/ShopCart/index'),
             meta: {

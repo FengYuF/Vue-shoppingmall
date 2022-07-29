@@ -6,18 +6,18 @@
       <div class="info" ref="info">
         <div class="user-info">
           <div class="username selected" @click="handler">张三</div>
-            <div class="address" @click="handler">模拟地址一</div>
-            <div class="phone" @click="handler">11223344556</div>
+          <div class="address" @click="handler">模拟地址一</div>
+          <div class="phone" @click="handler">11223344556</div>
         </div>
         <div class="user-info">
           <div class="username" @click="handler">李四</div>
-            <div class="address" @click="handler">模拟地址二</div>
-            <div class="phone" @click="handler">12345677889</div>
+          <div class="address" @click="handler">模拟地址二</div>
+          <div class="phone" @click="handler">12345677889</div>
         </div>
-        <div class="user-info" >
+        <div class="user-info">
           <div class="username" @click="handler">王五</div>
-            <div class="address" @click="handler">模拟地址三</div>
-            <div class="phone" @click="handler">16451102377</div>
+          <div class="address" @click="handler">模拟地址三</div>
+          <div class="phone" @click="handler">16451102377</div>
         </div>
       </div>
       <div class="hr"></div>
@@ -49,7 +49,7 @@
       </div>
       <div class="msg">
         <div class="msg-title">买家留言:</div>
-        <textarea name="" id="" cols="160" rows="3"></textarea>
+        <textarea id="" cols="160" rows="3" v-model="userMsg"></textarea>
       </div>
       <div class="invoice">
         <div class="invoice-title">发票信息</div>
@@ -80,7 +80,7 @@
         }}{{ userInfo.phone }}
       </div>
     </div>
-    <button class="btn">提交订单</button>
+    <button class="btn" @click="toPay">提交订单</button>
     <div class="clearfix"></div>
   </div>
 </template>
@@ -95,19 +95,42 @@ export default {
         address: "模拟地址一",
         phone: "11223344556",
       },
+      userMsg: "",
     };
   },
   methods: {
     handler(event) {
       console.log(this.$refs.info.childNodes[0]);
-      for (let i = 0;i < this.$refs.info.childNodes[0].childNodes.length;i++
-      ){
+      for (
+        let i = 0;
+        i < this.$refs.info.childNodes[0].childNodes.length;
+        i++
+      ) {
         this.$refs.info.childNodes[i].childNodes[0].className = "username";
       }
       event.target.parentNode.children[0].className = "username selected";
       this.userInfo.userName = event.target.parentNode.children[0].innerHTML;
       this.userInfo.address = event.target.parentNode.children[1].innerHTML;
       this.userInfo.phone = event.target.parentNode.children[2].innerHTML;
+    },
+    async toPay() {
+      console.log(this.$API);
+      let data = {
+        consignee: this.userInfo.userName,
+        consigneeTel: this.userInfo.phone,
+        deliveryAddress: this.userInfo.address,
+        paymentWay: "ONLINE",
+        orderComment: this.userMsg,
+        orderDetailList: this.tradeInfo.detailArrayList,
+      };
+      await this.$API.reqSubmitOrder(this.tradeInfo.tradeNo, data).then(res=>{
+        // 提交订单成功
+        if(res.code==200) {
+          this.$router.push(`/pay?orderId=${res.data}`)
+        }else {
+          alert(res.data)
+        }
+      })
     },
   },
   mounted() {
@@ -125,9 +148,9 @@ export default {
 .btn {
   width: 100px;
   height: 50px;
-  color: #FFF;
-  background-color: #F1361B;
-  border: 1px solid #F1361B;
+  color: #fff;
+  background-color: #f1361b;
+  border: 1px solid #f1361b;
   font-weight: bold;
   float: right;
   margin: 10px 50px 0 0;
@@ -246,10 +269,10 @@ export default {
   line-height: 30px;
 }
 .user-info:hover .address {
-  background-color: #DDDDDD;
+  background-color: #dddddd;
 }
 .user-info:hover .phone {
-  background-color: #DDDDDD;
+  background-color: #dddddd;
 }
 .user-info div {
   margin: 0;

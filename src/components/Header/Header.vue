@@ -16,7 +16,7 @@
         <!-- Header右半部分 -->
         <div class="Header-top-right">
             <ul>
-                <li><a href="#">我的订单</a></li>
+                <li><router-link to="/center">我的订单</router-link></li>
                 <li>|</li>
                 <li><router-link to="/ShopCart">我的购物车</router-link></li>
                 <li>|</li>

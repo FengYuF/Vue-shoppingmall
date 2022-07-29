@@ -102,9 +102,39 @@ export const userLogout = ()=>{
         method: 'get'
     })
 }
+// 订单交易页信息
 export const tradeInfo = ()=> {
     return request({
         url: '/order/auth/trade',
+        method: 'get'
+    })
+}
+// 提交订单
+export const reqSubmitOrder = (tradeNo,data)=>{
+    return request({
+        url: `/order/auth/submitOrder?tradeNo=${tradeNo}`,
+        method: 'post',
+        data
+    })
+}
+// 查询订单
+export const reqOrderInfo = (orderId) =>{
+    return request({
+        url: `/payment/weixin/createNative/${orderId}`,
+        method: 'get'
+    })
+}
+// 获取订单支付状态
+export const reqPayStatus = (orderId)=>{
+    return request({
+        url: `/payment/weixin/queryPayStatus/${orderId}`,
+        method: 'get'
+    })
+}
+// 获取订单信息
+export const reqOrderList = (page,limit)=> {
+    return request({
+        url: `order/auth/${page}/${limit}`,
         method: 'get'
     })
 }
