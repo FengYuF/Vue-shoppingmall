@@ -32,7 +32,7 @@
         <div class="step-cont">
           <ul class="payType">
             <li><img src="./images/pay2.jpg"></li>
-            <li><img src="./images/pay3.jpg"></li>
+            <li style="border:2px solid red"><img src="./images/pay3.jpg"></li>
           </ul>
 
         </div>
@@ -72,7 +72,7 @@
             <h5>其他支付方式</h5>
           </div>
           <div class="step-cont">
-            <span><a href="weixinpay.html" target="_blank">微信支付</a></span>
+            <span><a href="weixinpay.html" target="_blank">微信支付</a></span>&nbsp;
             <span>中国银联</span>
           </div>
         </div>
@@ -100,7 +100,7 @@ import QRCode from 'qrcode'
     methods:{
       async open() {
         let url = await QRCode.toDataURL(this.orderDetail.codeUrl)
-        this.$alert(`<img src=${url} />`, 'HTML 片段', {
+        this.$alert(`<img src=${url} />`, '点击完成支付即可', {
           dangerouslyUseHTMLString: true,
           center: true,
           showCancelButton: true,
